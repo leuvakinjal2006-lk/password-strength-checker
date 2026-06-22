@@ -4,51 +4,46 @@ function checkPassword() {
     let result = document.getElementById("result");
     let btn = document.getElementById("checkBtn");
 
-    let score = 0;
+    // Conditions
+    let hasUpper = /[A-Z]/.test(password);
+    let hasLower = /[a-z]/.test(password);
+    let hasNumber = /[0-9]/.test(password);
+    let hasSpecial = /[^A-Za-z0-9]/.test(password);
+    let length = password.length;
 
-    // Length Check
-    if (password.length >= 8) score++;
-    if (password.length >= 12) score++;
-
-    // Character Checks
-    if (/[A-Z]/.test(password)) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++;
-
-    // Weak
-    if (score <= 2) {
-
+    // Weak Password
+    if (length < 8) {
         result.innerHTML =
-        "❌ Weak Password <br><small>Use uppercase, numbers and special characters.</small>";
+            "❌ Weak Password<br><small>Minimum 8 characters required.</small>";
 
         result.style.color = "#ff3b30";
-
         btn.style.background = "#ff3b30";
         btn.style.color = "white";
     }
 
-    // Medium
-    else if (score <= 4) {
-
+    // Strong Password
+    else if (
+        length >= 8 &&
+        hasUpper &&
+        hasLower &&
+        hasNumber &&
+        hasSpecial
+    ) {
         result.innerHTML =
-        "⚠️ Medium Password <br><small>Add more complexity for better security.</small>";
+            "✅ Strong Password<br><small>Password is highly secure.</small>";
 
-        result.style.color = "#ffcc00";
-
-        btn.style.background = "#ffcc00";
+        result.style.color = "#00ff99";
+        btn.style.background = "#00ff99";
         btn.style.color = "black";
     }
 
-    // Strong
+    // Medium Password
     else {
-
         result.innerHTML =
-        "✅ Strong Password <br><small>Excellent! Your password is secure.</small>";
+            "⚠️ Medium Password<br><small>Add uppercase, numbers or special characters for better security.</small>";
 
-        result.style.color = "#00ff99";
-
-        btn.style.background = "#00ff99";
+        result.style.color = "#ffcc00";
+        btn.style.background = "#ffcc00";
         btn.style.color = "black";
     }
 }
